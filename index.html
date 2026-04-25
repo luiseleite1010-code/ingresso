@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bonjour Party – Ingresse</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#111;color:#fff;min-height:100vh;}
+
+/* NAV */
+nav{background:#111;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;border-bottom:1px solid #222;position:sticky;top:0;z-index:200;}
+.nav-logo{display:flex;align-items:center;gap:7px;color:#fff;font-size:1.05rem;font-weight:600;cursor:pointer;}
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.nav-cta{background:#FF6B00;color:#fff;border:none;padding:.5rem 1.4rem;border-radius:999px;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+.nav-cta:hover{background:#ff8422;}
+.nav-lang{font-size:.82rem;color:#ccc;display:flex;align-items:center;gap:3px;cursor:pointer;}
+
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ====== HERO ====== */
+.hero{position:relative;overflow:hidden;min-height:calc(100vh - 56px);display:flex;align-items:center;background:#1a0000;}
+.hero-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 100% at 25% 50%,rgba(150,20,10,.9) 0%,transparent 60%),radial-gradient(ellipse 50% 80% at 0% 60%,rgba(80,5,5,.95) 0%,transparent 55%),radial-gradient(ellipse 60% 60% at 100% 30%,rgba(40,0,0,.6) 0%,transparent 55%);}
+.hero-content{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;width:100%;max-width:1100px;margin:0 auto;padding:4rem 2rem;gap:2rem;}
+.hero-left{flex:1;max-width:540px;}
+.hero-title{font-size:clamp(2.8rem,6vw,4.5rem);font-weight:900;line-height:1;letter-spacing:-.02em;margin-bottom:1.5rem;text-transform:uppercase;}
+.hero-meta{display:flex;flex-direction:column;gap:.6rem;margin-bottom:2.25rem;}
+.hero-meta-item{display:flex;align-items:center;gap:.6rem;font-size:1rem;color:#ddd;}
+.btn-hero{display:inline-block;background:#FF6B00;color:#fff;border:none;padding:1rem 2.75rem;border-radius:999px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .15s;}
+.btn-hero:hover{background:#ff8422;transform:translateY(-1px);}
+.hero-right{flex-shrink:0;width:min(310px,38vw);}
+.event-card{border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7);}
+.event-card-img{width:100%;aspect-ratio:4/5;background:linear-gradient(160deg,#3a0000 0%,#1a0a00 40%,#000 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:1.5rem;}
+.event-card-img::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 40% at 50% 80%,rgba(220,60,0,.55) 0%,transparent 60%),radial-gradient(ellipse 40% 60% at 30% 60%,rgba(180,30,0,.4) 0%,transparent 50%),radial-gradient(ellipse 40% 60% at 70% 55%,rgba(200,50,0,.35) 0%,transparent 50%);}
+.lasers{position:absolute;inset:0;overflow:hidden;}
+.laser{position:absolute;bottom:40%;width:2px;background:linear-gradient(to top,rgba(255,100,0,.8),transparent);transform-origin:bottom center;}
+.laser:nth-child(1){left:20%;height:55%;transform:rotate(-22deg);}
+.laser:nth-child(2){left:35%;height:65%;transform:rotate(-9deg);}
+.laser:nth-child(3){left:50%;height:72%;transform:rotate(0);}
+.laser:nth-child(4){left:65%;height:65%;transform:rotate(9deg);}
+.laser:nth-child(5){left:80%;height:55%;transform:rotate(22deg);}
+.crowd{position:absolute;bottom:0;left:0;right:0;height:30%;background:linear-gradient(to top,rgba(0,0,0,.9),transparent);z-index:2;}
+.card-logo-mark{position:relative;z-index:3;margin-bottom:.5rem;}
+.card-date-label{position:relative;z-index:3;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:1rem;}
+.card-script{position:relative;z-index:3;font-size:3.2rem;font-weight:900;font-style:italic;color:#fff;line-height:.9;letter-spacing:-.03em;text-shadow:0 2px 20px rgba(0,0,0,.5);}
+.card-year{position:relative;z-index:3;font-size:1rem;font-weight:700;color:rgba(255,255,255,.55);margin-top:.3rem;}
+.card-footer-tag{position:absolute;bottom:0;left:0;right:0;z-index:4;background:rgba(0,0,0,.6);text-align:center;padding:.6rem;font-size:.68rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.8);border-top:1px solid rgba(255,255,255,.1);}
+.cookie-bar{background:#1a1a1a;padding:.85rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.8rem;color:#aaa;border-top:1px solid #2a2a2a;}
+.cookie-bar a{color:#FF6B00;text-decoration:none;}
+.cookie-dismiss{background:#FF6B00;color:#fff;border:none;padding:.45rem 1.25rem;border-radius:999px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;white-space:nowrap;}
+
+/* ====== CHECKOUT ====== */
+#page-checkout{background:#f0f2f5;color:#222;min-height:100vh;}
+.steps-bar{background:#fff;padding:.85rem 2rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid #e0e0e0;font-size:.88rem;}
+.step{color:#aaa;}
+.step.active{color:#FF6B00;font-weight:600;}
+.step-dot{color:#ccc;font-size:.7rem;}
+.event-header{background:#fff;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e8e8e8;}
+.event-header-left{display:flex;align-items:center;gap:1rem;}
+.event-thumb{width:70px;height:70px;border-radius:8px;overflow:hidden;flex-shrink:0;background:linear-gradient(140deg,#3a0000,#1a0a00);display:flex;align-items:center;justify-content:center;position:relative;}
+.event-thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(220,60,0,.6) 0%,transparent 70%);}
+.event-thumb-txt{font-size:1rem;font-weight:900;font-style:italic;color:#fff;position:relative;z-index:2;}
+.event-info h2{font-size:1rem;font-weight:700;margin-bottom:.2rem;}
+.event-info .loc{font-size:.8rem;color:#666;display:flex;align-items:center;gap:4px;}
+.event-links{display:flex;gap:1rem;margin-top:.35rem;}
+.event-links a{font-size:.78rem;color:#FF6B00;text-decoration:none;font-weight:500;cursor:pointer;}
+.event-links a:hover{text-decoration:underline;}
+.btn-desconto{background:#FF6B00;color:#fff;border:none;padding:.55rem 1.3rem;border-radius:999px;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;transition:background .2s;}
+.btn-desconto:hover{background:#ff8422;}
+.checkout-main{display:grid;grid-template-columns:1fr 350px;gap:1.25rem;max-width:1100px;margin:1.25rem auto;padding:0 1.5rem 3rem;align-items:start;}
+.date-label{font-size:.88rem;color:#555;margin-bottom:.3rem;}
+.date-big{font-size:1.4rem;font-weight:900;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:1.25rem;}
+.ticket-section{background:#fff;border-radius:10px;border:1px solid #e0e0e0;overflow:hidden;margin-bottom:1rem;}
+.sec-header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1px solid #f0f0f0;cursor:pointer;user-select:none;}
+.sec-title{font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#222;}
+.sec-toggle{color:#FF6B00;font-size:1rem;font-weight:700;}
+.sec-body{padding:.25rem 0;}
+.ticket-row{padding:1rem 1.25rem;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.ticket-row:last-child{border-bottom:none;}
+.tr-info{flex:1;}
+.tr-name{font-size:.92rem;font-weight:600;margin-bottom:.3rem;line-height:1.35;color:#222;}
+.tr-price{font-size:.88rem;font-weight:700;color:#222;}
+.tr-price span{font-size:.76rem;font-weight:400;color:#999;}
+.ticket-qty{display:flex;align-items:center;gap:.5rem;}
+.qty-num{font-size:.92rem;font-weight:700;min-width:18px;text-align:center;color:#222;}
+.btn-plus,.btn-minus{width:30px;height:30px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background .15s,transform .1s;}
+.btn-plus{background:#FF6B00;color:#fff;}
+.btn-plus:hover{background:#ff8422;transform:scale(1.07);}
+.btn-minus{background:#e5e5e5;color:#555;}
+.btn-minus:hover:not(:disabled){background:#ccc;}
+.btn-minus:disabled{opacity:.3;cursor:default;}
+
+/* RIGHT PANEL */
+.right-panel{background:#fff;border-radius:10px;border:1px solid #e0e0e0;overflow:hidden;position:sticky;top:76px;}
+.rp-header{padding:1rem 1.25rem;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:.6rem;}
+.rp-header h3{font-size:.95rem;font-weight:700;color:#222;}
+.empty-state{padding:2.25rem 1.5rem;text-align:center;}
+.empty-circle{width:88px;height:88px;border-radius:50%;background:#e8eaed;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.9rem;position:relative;}
+.sparkle{position:absolute;font-size:11px;color:#aaa;}
+.sparkle.s1{top:-4px;right:12px;} .sparkle.s2{top:50%;right:-10px;} .sparkle.s3{bottom:4px;left:2px;}
+.empty-title{font-size:.9rem;font-weight:700;margin-bottom:.35rem;color:#222;}
+.empty-desc{font-size:.76rem;color:#888;line-height:1.5;}
+.selected-items-list{padding:.75rem 1.25rem;display:none;flex-direction:column;gap:.5rem;}
+.selected-items-list.show{display:flex;}
+.sel-item{display:flex;justify-content:space-between;align-items:flex-start;font-size:.82rem;gap:.5rem;}
+.sel-item-name{color:#444;flex:1;line-height:1.3;}
+.sel-item-price{font-weight:700;color:#222;white-space:nowrap;}
+.rp-totals{padding:.9rem 1.25rem;border-top:1px solid #f0f0f0;}
+.rp-row{display:flex;justify-content:space-between;font-size:.86rem;color:#555;margin-bottom:.5rem;}
+.rp-row span:last-child{font-weight:600;color:#222;}
+.rp-row.bold{font-size:.95rem;font-weight:700;color:#222;margin-top:.25rem;}
+.rp-row.bold span:last-child{color:#FF6B00;}
+.btn-prosseguir{display:block;width:calc(100% - 2.5rem);margin:.75rem 1.25rem 1.25rem;background:#ccc;color:#fff;border:none;padding:.85rem;border-radius:999px;font-family:'Inter',sans-serif;font-size:.86rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:not-allowed;transition:background .2s;}
+.btn-prosseguir.on{background:#FF6B00;cursor:pointer;}
+.btn-prosseguir.on:hover{background:#ff8422;}
+
+/* ====== MODAL ====== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:440px;overflow:hidden;max-height:90vh;overflow-y:auto;}
+.modal-header{background:linear-gradient(135deg,#8B0000,#CC2200);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+.modal-header h2{color:#fff;font-size:1rem;font-weight:700;}
+.modal-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.modal-close:hover{background:rgba(255,255,255,.3);}
+
+/* steps */
+.modal-steps{display:flex;align-items:center;justify-content:center;gap:0;padding:1.25rem 1.5rem 0;}
+.mstep{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.mstep-circle{width:28px;height:28px;border-radius:50%;background:#e8edf5;color:#aaa;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;transition:background .3s,color .3s;}
+.mstep.active .mstep-circle{background:#FF6B00;color:#fff;}
+.mstep.done .mstep-circle{background:#10b981;color:#fff;}
+.mstep-label{font-size:10px;font-weight:700;color:#aaa;white-space:nowrap;}
+.mstep.active .mstep-label{color:#FF6B00;}
+.mstep.done .mstep-label{color:#10b981;}
+.mstep-line{flex:1;height:2px;background:#e8edf5;min-width:32px;margin-bottom:18px;transition:background .3s;}
+.mstep-line.done{background:#10b981;}
+
+.modal-body{padding:1.25rem 1.5rem 1.5rem;}
+.modal-screen{display:none;}
+.modal-screen.active{display:block;}
+
+/* order summary */
+.order-summary{background:#fff8f5;border:1.5px solid #ffd6b8;border-radius:10px;padding:1rem;margin-bottom:1.25rem;}
+.order-summary-title{font-size:.7rem;font-weight:700;color:#FF6B00;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.6rem;}
+.order-item{display:flex;justify-content:space-between;font-size:.82rem;color:#333;margin-bottom:.3rem;}
+.order-total{display:flex;justify-content:space-between;font-size:.95rem;font-weight:700;color:#222;border-top:1px solid #ffd6b8;margin-top:.6rem;padding-top:.6rem;}
+.order-total span:last-child{color:#FF6B00;}
+
+/* form */
+.m-label{display:block;font-size:11px;font-weight:700;color:#555;margin-bottom:4px;letter-spacing:.05em;text-transform:uppercase;}
+.m-input-wrap{position:relative;margin-bottom:1rem;}
+.m-input-wrap input{width:100%;padding:11px 14px 11px 38px;border:1.5px solid #e0e6f0;border-radius:10px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:500;outline:none;transition:border-color .2s;color:#222;}
+.m-input-wrap input:focus{border-color:#FF6B00;}
+.m-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;}
+.m-btn{width:100%;padding:13px;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.m-btn:hover:not(:disabled){opacity:.9;transform:translateY(-1px);}
+.m-btn:disabled{opacity:.45;cursor:not-allowed;}
+.m-btn-primary{background:#FF6B00;color:#fff;}
+.m-btn-gray{background:#f4f6fb;color:#777;margin-top:8px;font-size:.82rem;}
+.m-erro{display:none;background:#fee2e2;border:1.5px solid #fca5a5;border-radius:8px;padding:10px 14px;margin-bottom:12px;color:#991b1b;font-size:.8rem;font-weight:600;}
+
+/* loading */
+.m-loading{text-align:center;padding:2.5rem 0;}
+.m-spinner{width:44px;height:44px;border-radius:50%;border:4px solid #ffe5d0;border-top-color:#FF6B00;animation:spin .8s linear infinite;margin:0 auto 1rem;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.m-loading p{font-size:.85rem;color:#777;font-weight:600;line-height:1.6;}
+
+/* pix */
+.m-pix{text-align:center;}
+.m-pix-qr{width:190px;height:190px;background:#f9f9f9;border-radius:14px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;border:2px dashed #FF6B00;overflow:hidden;font-size:2rem;}
+.m-pix-qr img{width:100%;}
+.m-pix-valor{font-size:1.8rem;font-weight:900;color:#222;margin-bottom:.2rem;}
+.m-pix-label{font-size:.75rem;color:#999;margin-bottom:1rem;}
+.m-pix-wrap{position:relative;margin-bottom:.75rem;}
+.m-pix-code{width:100%;padding:10px 52px 10px 12px;background:#f4f6fb;border:1.5px solid #e0e6f0;border-radius:8px;font-size:11px;font-family:monospace;color:#555;word-break:break-all;resize:none;outline:none;}
+.m-copy-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:#FF6B00;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;transition:background .2s;}
+.m-copy-btn.copied{background:#10b981;}
+.pix-timer{font-size:.72rem;color:#aaa;margin-bottom:1rem;}
+
+/* sucesso */
+.m-sucesso{text-align:center;padding:1.5rem 0;}
+
+@media(max-width:768px){
+  .checkout-main{grid-template-columns:1fr;}
+  .right-panel{position:static;}
+  .hero-right{display:none;}
+}
+@media(max-width:480px){
+  nav{padding:0 1rem;}
+  .checkout-main{padding:0 1rem 2rem;}
+  .event-header{flex-wrap:wrap;gap:.75rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="goTo('home')">
+    <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+      <polygon points="14,2 17,11 26,11 19,17 22,26 14,20 6,26 9,17 2,11 11,11" fill="#FF6B00"/>
+      <polygon points="14,6 16,12 22,12 17,16 19,22 14,18 9,22 11,16 6,12 12,12" fill="#FFD700" opacity="0.7"/>
+    </svg>
+    ingresse
+  </div>
+  <div class="nav-right">
+    <button class="nav-cta" onclick="goTo('checkout')">ACESSAR</button>
+    <div class="nav-lang">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#aaa" stroke-width="1.2"/></svg>
+      PT <svg width="10" height="10" fill="none" stroke="#aaa" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </div>
+</nav>
+
+<!-- ====== PAGE HOME ====== -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-left">
+        <h1 class="hero-title">Bonjour Party</h1>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            25 de abril de 2026
+          </div>
+          <div class="hero-meta-item">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Bonjour Party – Campinas
+          </div>
+        </div>
+        <button class="btn-hero" onclick="goTo('checkout')">COMPRAR INGRESSO</button>
+      </div>
+      <div class="hero-right">
+        <div class="event-card">
+          <div class="event-card-img">
+            <div class="lasers">
+              <div class="laser"></div><div class="laser"></div><div class="laser"></div><div class="laser"></div><div class="laser"></div>
+            </div>
+            <div class="crowd"></div>
+            <div class="card-logo-mark">
+              <svg width="34" height="26" viewBox="0 0 34 26" fill="none">
+                <path d="M17 2L29 13H21V25H13V13H5L17 2Z" fill="#FF6B00"/>
+                <path d="M17 4L26 12H20V24H14V12H8L17 4Z" fill="#FFD700" opacity="0.55"/>
+              </svg>
+            </div>
+            <div class="card-date-label">25 . APRIL</div>
+            <div class="card-script">Bonjour!</div>
+            <div class="card-year">26</div>
+            <div class="card-footer-tag">ALL INCLUSIVE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="cookie-bar" id="cookie-bar">
+    <span>A Ingresse utiliza estatísticas de visitas (cookies) para melhorar sua experiência de navegação. Saiba mais em nossas <a href="#">políticas de privacidade</a></span>
+    <button class="cookie-dismiss" onclick="document.getElementById('cookie-bar').style.display='none'">Entendido</button>
+  </div>
+</div>
+
+<!-- ====== PAGE CHECKOUT ====== -->
+<div class="page" id="page-checkout">
+  <div class="steps-bar">
+    <span class="step active">Ingressos</span>
+    <span class="step-dot">•</span>
+    <span class="step">Pagamento</span>
+    <span class="step-dot">•</span>
+    <span class="step">Confirmação</span>
+  </div>
+  <div class="event-header">
+    <div class="event-header-left">
+      <div class="event-thumb"><div class="event-thumb-txt">Bj!</div></div>
+      <div class="event-info">
+        <h2>Bonjour Party</h2>
+        <div class="loc">
+          <svg width="12" height="12" fill="none" stroke="#888" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Bonjour Party | Campinas
+        </div>
+        <div class="event-links">
+          <a onclick="goTo('home')">Ver página do evento</a>
+          <a href="#">Compartilhar</a>
+        </div>
+      </div>
+    </div>
+    <button class="btn-desconto">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      Liberar descontos
+    </button>
+  </div>
+
+  <div class="checkout-main">
+    <div class="left-col">
+      <div class="date-label">Sábado</div>
+      <div class="date-big">25 DE ABRIL ÀS 17:00</div>
+
+      <!-- Transfer -->
+      <div class="ticket-section">
+        <div class="sec-header" onclick="toggleSec('transfer')">
+          <span class="sec-title">Transfer</span>
+          <span class="sec-toggle" id="tog-transfer">∧</span>
+        </div>
+        <div class="sec-body" id="sec-transfer">
+          <div class="ticket-row">
+            <div class="tr-info">
+              <div class="tr-name">Carro executivo para 4 pessoas saindo de São Paulo – Unissex – Ida e Volta</div>
+              <div class="tr-price">R$ 1.000,00 <span>+ taxas</span></div>
+            </div>
+            <div class="ticket-qty">
+              <button class="btn-minus" id="m-sp" onclick="chg('sp',false)" disabled>−</button>
+              <span class="qty-num" id="q-sp">0</span>
+              <button class="btn-plus" onclick="chg('sp',true)">+</button>
+            </div>
+          </div>
+          <div class="ticket-row">
+            <div class="tr-info">
+              <div class="tr-name">Carro executivo para 4 pessoas saindo de Campinas – Unissex – Ida e Volta</div>
+              <div class="tr-price">R$ 750,00 <span>+ taxas</span></div>
+            </div>
+            <div class="ticket-qty">
+              <button class="btn-minus" id="m-cp" onclick="chg('cp',false)" disabled>−</button>
+              <span class="qty-num" id="q-cp">0</span>
+              <button class="btn-plus" onclick="chg('cp',true)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ingressos -->
+      <div class="ticket-section">
+        <div class="sec-header" onclick="toggleSec('ing')">
+          <span class="sec-title">Ingressos</span>
+          <span class="sec-toggle" id="tog-ing">∧</span>
+        </div>
+        <div class="sec-body" id="sec-ing">
+          <div class="ticket-row">
+            <div class="tr-info">
+              <div class="tr-name">Pista – All Inclusive – Unissex</div>
+              <div class="tr-price">R$ 480,00 <span>+ taxas</span></div>
+            </div>
+            <div class="ticket-qty">
+              <button class="btn-minus" id="m-pista" onclick="chg('pista',false)" disabled>−</button>
+              <span class="qty-num" id="q-pista">0</span>
+              <button class="btn-plus" onclick="chg('pista',true)">+</button>
+            </div>
+          </div>
+          <div class="ticket-row">
+            <div class="tr-info">
+              <div class="tr-name">Camarote – All Inclusive – Unissex</div>
+              <div class="tr-price">R$ 680,00 <span>+ taxas</span></div>
+            </div>
+            <div class="ticket-qty">
+              <button class="btn-minus" id="m-camarote" onclick="chg('camarote',false)" disabled>−</button>
+              <span class="qty-num" id="q-camarote">0</span>
+              <button class="btn-plus" onclick="chg('camarote',true)">+</button>
+            </div>
+          </div>
+          <div class="ticket-row">
+            <div class="tr-info">
+              <div class="tr-name">Meia-Entrada – Pista – All Inclusive</div>
+              <div class="tr-price">R$ 240,00 <span>+ taxas</span></div>
+            </div>
+            <div class="ticket-qty">
+              <button class="btn-minus" id="m-meia" onclick="chg('meia',false)" disabled>−</button>
+              <span class="qty-num" id="q-meia">0</span>
+              <button class="btn-plus" onclick="chg('meia',true)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="rp-header">
+        <svg width="17" height="17" fill="none" stroke="#555" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="12" y2="17"/></svg>
+        <h3>Detalhes da compra</h3>
+      </div>
+      <div class="empty-state" id="empty-st">
+        <div class="empty-circle">
+          <span>👆</span>
+          <span class="sparkle s1">✦</span><span class="sparkle s2">✦</span><span class="sparkle s3">✦</span>
+        </div>
+        <div class="empty-title">Você não possui ingressos selecionados</div>
+        <div class="empty-desc">Navegue pelas sessões disponíveis para não ficar de fora dessa experiência incrível.</div>
+      </div>
+      <div class="selected-items-list" id="sel-list">
+        <div id="sel-items"></div>
+      </div>
+      <div class="rp-totals">
+        <div class="rp-row"><span>Ingressos</span><span id="tot-qty">0</span></div>
+        <div class="rp-row bold"><span>Subtotal</span><span id="tot-price">R$ 0,00</span></div>
+      </div>
+      <button class="btn-prosseguir" id="btn-prox" disabled onclick="abrirPagamento()">Prosseguir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== MODAL PAGAMENTO ====== -->
+<div class="modal-overlay" id="modal-pagamento" onclick="fecharModalFora(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>🎟️ Finalizar compra</h2>
+      <button class="modal-close" onclick="fecharModal()">✕</button>
+    </div>
+    <div class="modal-steps">
+      <div class="mstep active" id="ps1"><div class="mstep-circle">1</div><div class="mstep-label">Seus dados</div></div>
+      <div class="mstep-line" id="pl1"></div>
+      <div class="mstep" id="ps2"><div class="mstep-circle">2</div><div class="mstep-label">Pix</div></div>
+      <div class="mstep-line" id="pl2"></div>
+      <div class="mstep" id="ps3"><div class="mstep-circle">3</div><div class="mstep-label">Confirmação</div></div>
+    </div>
+    <div class="modal-body">
+
+      <!-- TELA 1: FORMULÁRIO -->
+      <div class="modal-screen active" id="tela-form">
+        <div class="order-summary">
+          <div class="order-summary-title">Resumo do pedido</div>
+          <div id="modal-order-items"></div>
+          <div class="order-total"><span>Total</span><span id="modal-order-total">R$ 0,00</span></div>
+        </div>
+        <div class="m-erro" id="form-erro"></div>
+        <label class="m-label">Nome completo</label>
+        <div class="m-input-wrap">
+          <span class="m-icon">👤</span>
+          <input type="text" id="p-nome" placeholder="Seu nome completo"/>
+        </div>
+        <label class="m-label">CPF</label>
+        <div class="m-input-wrap">
+          <span class="m-icon">🪪</span>
+          <input type="text" id="p-cpf" placeholder="000.000.000-00" maxlength="14"/>
+        </div>
+        <label class="m-label">E-mail</label>
+        <div class="m-input-wrap">
+          <span class="m-icon">✉️</span>
+          <input type="email" id="p-email" placeholder="seu@email.com"/>
+        </div>
+        <label class="m-label">Telefone (WhatsApp)</label>
+        <div class="m-input-wrap">
+          <span class="m-icon">📱</span>
+          <input type="text" id="p-tel" placeholder="(11) 99999-9999" maxlength="15"/>
+        </div>
+        <button class="m-btn m-btn-primary" onclick="gerarPix()">⚡ Gerar Pix para pagamento</button>
+        <button class="m-btn m-btn-gray" onclick="fecharModal()">Cancelar</button>
+      </div>
+
+      <!-- TELA 2: LOADING -->
+      <div class="modal-screen" id="tela-loading">
+        <div class="m-loading">
+          <div class="m-spinner"></div>
+          <p>Gerando seu Pix...<br><small style="color:#aaa">Aguarde um momento</small></p>
+        </div>
+      </div>
+
+      <!-- TELA 3: PIX -->
+      <div class="modal-screen" id="tela-pix">
+        <div class="m-pix">
+          <p style="font-size:.82rem;color:#555;margin-bottom:1rem;font-weight:600;">Escaneie o QR Code ou copie o código para pagar:</p>
+          <div class="order-summary" style="margin-bottom:1rem;">
+            <div class="order-summary-title">Resumo do pedido</div>
+            <div id="modal-pix-items"></div>
+            <div class="order-total"><span>Total</span><span id="modal-pix-total">R$ 0,00</span></div>
+          </div>
+          <div class="m-pix-qr" id="pix-qr">📷</div>
+          <div class="m-pix-valor" id="pix-valor">R$ 0,00</div>
+          <div class="m-pix-label">Escaneie o QR Code ou copie o código abaixo</div>
+          <div class="m-pix-wrap">
+            <textarea class="m-pix-code" id="pix-code" rows="3" readonly></textarea>
+            <button class="m-copy-btn" id="copy-btn" onclick="copiarPix()">Copiar</button>
+          </div>
+          <p class="pix-timer">⏱ Pix expira em 30 minutos</p>
+        </div>
+        <button class="m-btn m-btn-gray" onclick="fecharModal()">Fechar — pagarei depois</button>
+      </div>
+
+      <!-- TELA 4: SUCESSO -->
+      <div class="modal-screen" id="tela-sucesso">
+        <div class="m-sucesso">
+          <div style="font-size:3.5rem;margin-bottom:.75rem;">🎉</div>
+          <h3 style="font-size:1.1rem;font-weight:700;color:#065f46;margin-bottom:.5rem;">Pagamento confirmado!</h3>
+          <p style="font-size:.85rem;color:#555;line-height:1.6;margin-bottom:1.25rem;">Seu ingresso foi gerado com sucesso! Em breve você receberá a confirmação no e-mail e WhatsApp informados.</p>
+          <button class="m-btn m-btn-primary" onclick="fecharModal()">Fechar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ── SIGILO PAY CONFIG ──
+const SIGILO_PUBLIC_KEY = 'hwnnar_dhbbclwut5jicr0a';
+const SIGILO_SECRET_KEY = 'hwnnar_dhbbclwut5jicr0a';
+const SIGILO_URL = 'https://app.sigilopay.com.br/api/v1/gateway/pix/receive';
+
+// ── CATÁLOGO ──
+const catalog = {
+  sp:       {label:'Transfer SP – Ida e Volta',       price:1000, qty:0},
+  cp:       {label:'Transfer Campinas – Ida e Volta', price:750,  qty:0},
+  pista:    {label:'Pista – All Inclusive',           price:480,  qty:0},
+  camarote: {label:'Camarote – All Inclusive',        price:680,  qty:0},
+  meia:     {label:'Meia-Entrada – Pista',            price:240,  qty:0},
+};
+
+function fmt(n){ return n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+// ── NAVEGAÇÃO ──
+function goTo(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── SEÇÕES ──
+function toggleSec(id){
+  const body=document.getElementById('sec-'+id), tog=document.getElementById('tog-'+id);
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  tog.textContent=open?'∨':'∧';
+}
+
+// ── QUANTIDADE ──
+function chg(key,inc){
+  const it=catalog[key];
+  if(inc) it.qty++;
+  else if(it.qty>0) it.qty--;
+  document.getElementById('q-'+key).textContent=it.qty;
+  document.getElementById('m-'+key).disabled=it.qty===0;
+  renderPanel();
+}
+
+// ── PAINEL ──
+function renderPanel(){
+  let qty=0, total=0, html='';
+  for(const it of Object.values(catalog)){
+    if(it.qty>0){
+      qty+=it.qty; total+=it.qty*it.price;
+      html+=`<div class="sel-item"><span class="sel-item-name">${it.qty}× ${it.label}</span><span class="sel-item-price">R$ ${fmt(it.qty*it.price)}</span></div>`;
+    }
+  }
+  document.getElementById('tot-qty').textContent=qty;
+  document.getElementById('tot-price').textContent='R$ '+fmt(total);
+  document.getElementById('sel-items').innerHTML=html;
+  const has=qty>0;
+  document.getElementById('empty-st').style.display=has?'none':'block';
+  document.getElementById('sel-list').classList.toggle('show',has);
+  const btn=document.getElementById('btn-prox');
+  btn.classList.toggle('on',has);
+  btn.disabled=!has;
+}
+
+// ── MODAL ──
+function abrirPagamento(){
+  let html='', total=0;
+  for(const it of Object.values(catalog)){
+    if(it.qty>0){
+      const sub=it.qty*it.price; total+=sub;
+      html+=`<div class="order-item"><span>${it.qty}× ${it.label}</span><span>R$ ${fmt(sub)}</span></div>`;
+    }
+  }
+  document.getElementById('modal-order-items').innerHTML=html;
+  document.getElementById('modal-order-total').textContent='R$ '+fmt(total);
+  ['p-nome','p-cpf','p-email','p-tel'].forEach(id=>{ document.getElementById(id).value=''; });
+  document.getElementById('form-erro').style.display='none';
+  setStep(1); mostrar('tela-form');
+  document.getElementById('modal-pagamento').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function fecharModal(){
+  document.getElementById('modal-pagamento').classList.remove('open');
+  document.body.style.overflow='';
+}
+function fecharModalFora(e){
+  if(e.target===document.getElementById('modal-pagamento')) fecharModal();
+}
+function setStep(n){
+  [1,2,3].forEach(i=>{
+    const el=document.getElementById('ps'+i);
+    if(el) el.className='mstep'+(i<n?' done':i===n?' active':'');
+  });
+  [1,2].forEach(i=>{
+    const el=document.getElementById('pl'+i);
+    if(el) el.className='mstep-line'+(i<n?' done':'');
+  });
+}
+function mostrar(id){
+  ['tela-form','tela-loading','tela-pix','tela-sucesso'].forEach(s=>{
+    const el=document.getElementById(s); if(el) el.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+}
+
+// ── MÁSCARAS ──
+document.getElementById('p-cpf').addEventListener('input',function(){
+  let v=this.value.replace(/\D/g,'').slice(0,11);
+  v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+  this.value=v;
+});
+document.getElementById('p-tel').addEventListener('input',function(){
+  let v=this.value.replace(/\D/g,'').slice(0,11);
+  v=v.replace(/(\d{2})(\d)/,'($1) $2').replace(/(\d{5})(\d)/,'$1-$2');
+  this.value=v;
+});
+
+// ── GERAR PIX — SIGILO PAY ──
+async function gerarPix(){
+  const nome  = document.getElementById('p-nome').value.trim();
+  const cpf   = document.getElementById('p-cpf').value;
+  const email = document.getElementById('p-email').value.trim();
+  const tel   = document.getElementById('p-tel').value;
+  const erroEl= document.getElementById('form-erro');
+  erroEl.style.display='none';
+
+  // Validação CPF
+  function validarCPF(c){
+    c=c.replace(/\D/g,'');
+    if(c.length!==11||/^(\d)\1+$/.test(c)) return false;
+    let s=0; for(let i=0;i<9;i++) s+=+c[i]*(10-i);
+    let r=(s*10)%11; if(r===10||r===11)r=0; if(r!==+c[9]) return false;
+    s=0; for(let i=0;i<10;i++) s+=+c[i]*(11-i);
+    r=(s*10)%11; if(r===10||r===11)r=0; return r===+c[10];
+  }
+
+  if(!nome)                              { erroEl.textContent='Informe seu nome completo.'; erroEl.style.display='block'; return; }
+  if(!validarCPF(cpf))                   { erroEl.textContent='CPF inválido. Verifique o número informado.'; erroEl.style.display='block'; return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ erroEl.textContent='Informe um e-mail válido.'; erroEl.style.display='block'; return; }
+  if(tel.replace(/\D/g,'').length<11)    { erroEl.textContent='Informe um telefone com DDD e 9 dígitos.'; erroEl.style.display='block'; return; }
+
+  // Monta produtos e total
+  let total=0;
+  const products=[];
+  for(const [key,it] of Object.entries(catalog)){
+    if(it.qty>0){
+      total+=it.qty*it.price;
+      products.push({ id:key, name:it.label, quantity:it.qty, price:it.price });
+    }
+  }
+
+  setStep(2); mostrar('tela-loading');
+
+  try {
+    const identifier = 'bj-' + Date.now() + '-' + Math.random().toString(36).slice(2,8);
+
+    const resp = await fetch(SIGILO_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'x-public-key':  SIGILO_PUBLIC_KEY,
+        'x-secret-key':  SIGILO_SECRET_KEY,
+      },
+      body: JSON.stringify({
+        identifier,
+        amount: total,
+        client: {
+          name:     nome,
+          email:    email,
+          phone:    tel,
+          document: cpf,
+        },
+        products,
+        metadata: {
+          provider: 'Bonjour Party',
+          orderId:  identifier,
+        },
+      }),
+    });
+
+    const data = await resp.json();
+
+    if(!resp.ok){
+      throw new Error(data.message || data.errorDescription || 'Erro ao gerar Pix.');
+    }
+
+    renderPix(data, total);
+
+  } catch(err){
+    setStep(1); mostrar('tela-form');
+    erroEl.textContent = 'Erro ao gerar Pix: ' + err.message;
+    erroEl.style.display = 'block';
+  }
+}
+
+// ── RENDER PIX ──
+function renderPix(data, total){
+  const pix  = data.pix || {};
+  const qrEl = document.getElementById('pix-qr');
+
+  if(pix.base64){
+    const b64 = pix.base64.includes('base64,') ? pix.base64 : `data:image/png;base64,${pix.base64}`;
+    qrEl.innerHTML = `<img src="${b64}" style="width:100%;border-radius:10px;">`;
+  } else if(pix.image){
+    qrEl.innerHTML = `<img src="${pix.image}" style="width:100%;border-radius:10px;">`;
+  } else {
+    qrEl.textContent = '📷';
+  }
+
+  document.getElementById('pix-valor').textContent = 'R$ ' + fmt(total);
+  document.getElementById('pix-code').value = pix.code || '';
+
+  // Resumo no painel pix
+  let html='', t=0;
+  for(const it of Object.values(catalog)){
+    if(it.qty>0){
+      const sub=it.qty*it.price; t+=sub;
+      html+=`<div class="order-item"><span>${it.qty}× ${it.label}</span><span>R$ ${fmt(sub)}</span></div>`;
+    }
+  }
+  document.getElementById('modal-pix-items').innerHTML=html;
+  document.getElementById('modal-pix-total').textContent='R$ '+fmt(t);
+
+  setStep(3); mostrar('tela-pix');
+}
+
+// ── COPIAR PIX ──
+function copiarPix(){
+  const code = document.getElementById('pix-code').value;
+  const btn  = document.getElementById('copy-btn');
+  if(!code) return;
+  const done = () => {
+    btn.textContent='✓ Copiado!'; btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent='Copiar'; btn.classList.remove('copied'); },2500);
+  };
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(code).then(done).catch(()=>{
+      document.getElementById('pix-code').select();
+      document.execCommand('copy'); done();
+    });
+  } else {
+    document.getElementById('pix-code').select();
+    document.execCommand('copy'); done();
+  }
+}
+</script>
+</body>
+</html>
